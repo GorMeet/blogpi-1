@@ -16,8 +16,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primaryColor: Colors.redAccent,
+          primaryColor: Color.fromARGB(63, 120, 245, 1),
+          accentColor: Colors.white,
+          scaffoldBackgroundColor: Color.fromRGBO(30, 30, 30, 1),
+          textTheme: const TextTheme(bodyText2: TextStyle(color: Color.fromRGBO(243, 243, 243, 1))),
+          inputDecorationTheme: InputDecorationTheme(
+            hintStyle: TextStyle(color: Colors.grey,),
+            labelStyle: TextStyle(color: Colors.white,),
+          ),
+          iconTheme: IconThemeData(color: Colors.white),
         ),
         home: SplashScreen());
   }
-}
+}  

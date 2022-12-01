@@ -11,7 +11,7 @@ class RoundButton extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       clipBehavior: Clip.antiAlias,
       child: MaterialButton(
-          color: Colors.blue,
+          color: Colors.blueAccent,
           minWidth: double.infinity,
           height: 50,
           child: Text(

@@ -41,8 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Image(image: AssetImage("assets/images/splashlogo.png")),
-      Text('BlogPi'),
+      Image(image: AssetImage("assets/images/blog.png")),
     ]));
   }
 }

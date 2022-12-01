@@ -31,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Text("Login Screen"),
           centerTitle: true,
           backgroundColor: Colors.blueAccent,
+          leading: Text(""),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -49,6 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 30, fontWeight: FontWeight.bold)),
                     SizedBox(height: 20),
                     TextFormField(
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         hintText: "Email",
@@ -76,6 +80,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 30,
                     ),
                     TextFormField(
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                       obscureText: true,
                       decoration: InputDecoration(
                         hintText: "Password",

@@ -31,7 +31,7 @@ class _SignUpState extends State<SignUp> {
       child: Scaffold(
         // resizeToAvoidBottomInset: false,
         appBar: AppBar(
-            backgroundColor: Colors.blueAccent, title: Text("Create Account")),
+            backgroundColor: Color.fromRGBO(63, 120, 245, 1), title: Text("Create Account")),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
@@ -51,6 +51,9 @@ class _SignUpState extends State<SignUp> {
                     key: _formKey,
                     child: Column(children: [
                       TextFormField(
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                           controller: usernameController,
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
@@ -69,6 +72,9 @@ class _SignUpState extends State<SignUp> {
                         height: 30,
                       ),
                       TextFormField(
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                           controller: emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
@@ -87,6 +93,9 @@ class _SignUpState extends State<SignUp> {
                         height: 30,
                       ),
                       TextFormField(
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                           controller: passwordController,
                           keyboardType: TextInputType.emailAddress,
                           obscureText: true,
@@ -106,6 +115,9 @@ class _SignUpState extends State<SignUp> {
                         height: 30,
                       ),
                       TextFormField(
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                           controller: contactController,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(

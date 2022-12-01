@@ -8,8 +8,6 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:intl/intl.dart';
-import "dart:io";
 
 class UploadBlog extends StatefulWidget {
   const UploadBlog({super.key});
@@ -23,7 +21,7 @@ class _UploadBlogState extends State<UploadBlog> {
   final postRef = FirebaseDatabase.instance.reference().child("Posts");
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
-  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   File? _image;
   final picker = ImagePicker();
   TextEditingController titlecontroller = TextEditingController();
@@ -93,7 +91,7 @@ class _UploadBlogState extends State<UploadBlog> {
       inAsyncCall: showSpinner,
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.blueAccent,
+            backgroundColor: Color.fromRGBO(63, 120, 245, 1),
             title: Text('Upload Blog'),
             centerTitle: true,
           ),
@@ -118,14 +116,14 @@ class _UploadBlogState extends State<UploadBlog> {
                               )
                             : Container(
                                 decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 203, 201, 201),
+                                  color: Color.fromRGBO(255, 203, 201, 201),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 width: 100,
                                 height: 100,
                                 child: Icon(
                                   Icons.camera_alt,
-                                  color: Colors.blue,
+                                  color: Color.fromRGBO(63, 120, 245, 1),
                                 ),
                               )),
                   ),
@@ -142,13 +140,7 @@ class _UploadBlogState extends State<UploadBlog> {
                           hintText: "Title",
                           labelText: "Title",
                           border: OutlineInputBorder(),
-                          hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal),
-                          labelStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal)),
-                    ),
+                    )),
                     SizedBox(height: 30),
                     TextFormField(
                       controller: descriptioncontroller,
@@ -157,12 +149,7 @@ class _UploadBlogState extends State<UploadBlog> {
                           hintText: "Description",
                           labelText: "Description",
                           border: OutlineInputBorder(),
-                          hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal),
-                          labelStyle: TextStyle(
-                              color: Colors.grey,
-                              fontWeight: FontWeight.normal)),
+                          ),
                     ),
                   ],
                 )),
@@ -184,11 +171,8 @@ class _UploadBlogState extends State<UploadBlog> {
                             ref.putFile(_image!.absolute);
                         await Future.value(uploadTask);
                         var newUrl = await ref.getDownloadURL();
-                        var url = newUrl.toString();
-                        print(url);
-                        saveToDatabase(url);
 
-                        final User? user = auth.currentUser;
+                        final User? user = _auth.currentUser;
                         postRef.child('Post List').child(date.toString()).set({
                           'pId': date.toString(),
                           'pImage': newUrl.toString(),
@@ -225,26 +209,8 @@ class _UploadBlogState extends State<UploadBlog> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.SNACKBAR,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
+        backgroundColor: Color.fromRGBO(63, 120, 245, 1),
         textColor: Colors.white,
         fontSize: 16.0);
   }
 }
-
-void saveToDatabase(url) {
-    var dbTimeKey = new DateTime.now();
-    var formDate = new DateFormat("MMM d, yyyy");
-    var formatTime = new DateFormat('EEEE, hh:mm aaa');
-    //String date = formatDate.format(dbTimeKey);
-    //String time = formatTime.format(dbTimeKey);
-
-    DatabaseReference ref = FirebaseDatabase.instance.reference();
-    var data = {
-        "image": url,
-        //"description": "test",
-        //"date": date,
-        //"time": time,
-    };
-    ref.child("Posts").push().set(data);
-}
-

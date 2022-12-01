@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:blog/Screens/loginScreen.dart';
 import 'package:blog/Components/roundbutton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_database/firebase_database.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -19,70 +21,47 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   bool showSpinner = false;
-  final postRef = FirebaseDatabase.instance.reference().child("Posts");
+  FirebaseAuth auth = FirebaseAuth.instance;
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
-    //final FirebaseAuth _auth = FirebaseAuth.instance;
-    //final User? user = _auth.currentUser;
+    final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  void dialog(context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            content: Container(
-              height: 120,
-              child: Column(
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: ListTile(
-                        leading: Icon(Icons.camera_alt),
-                        title: Text("Camera"),
-                      )),
-                  InkWell(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: ListTile(
-                        leading: Icon(Icons.photo_library),
-                        title: Text("Gallery"),
-                      ))
-                ],
-              ),
-            ),
-          );
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
+    final User? user = _auth.currentUser;
+    print(user.toString());
     return MaterialApp(
       title: 'User Profile',
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue,
+          backgroundColor: Color.fromRGBO(63, 120, 245, 1),
           title: Center(
             child: const Text('Profile'),
           ),
+        leading: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Icon(
+              Icons.arrow_back,
+            ),
+          ),
+          actions: [
+            InkWell(
+              onTap: () {
+                auth.signOut().then((value) => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen())));
+              },
+              child: Icon(Icons.logout),
+            ),
+        ],
         ),
         body: ListView(
           children: <Widget>[
             Container(
               height: 250,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.blue,],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                  stops: [0.5, 0.9],
-                ),
-              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -103,8 +82,8 @@ class _ProfileState extends State<Profile> {
                         minRadius: 60.0,
                         child: CircleAvatar(
                           radius: 50.0,
-                          backgroundImage: NetworkImage(
-                              'https://avatars0.githubusercontent.com/u/28812093?s=460&u=06471c90e03cfd8ce2855d217d157c93060da490&v=4'),
+                          backgroundImage: AssetImage('assets/images/blog.png'),//NetworkImage(
+                              //'https://avatars0.githubusercontent.com/u/28812093?s=460&u=06471c90e03cfd8ce2855d217d157c93060da490&v=4'),
                         ),
                       ),
                       CircleAvatar(
@@ -121,11 +100,11 @@ class _ProfileState extends State<Profile> {
                     height: 10,
                   ),
                   Text(
-                    "User",
+                    "Email: " + user!.email.toString(),
                     style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ),
                 ],
@@ -135,84 +114,6 @@ class _ProfileState extends State<Profile> {
         ),
       ),
     );
-    //return ModalProgressHUD(
-    //  inAsyncCall: showSpinner,
-    //  child: Scaffold(
-    //      appBar: AppBar(
-    //        backgroundColor: Colors.blueAccent,
-    //        title: Text('Profile'),
-    //        centerTitle: true,
-    //      ),
-    //      body: SingleChildScrollView(
-    //          child: Padding(
-    //        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-    //        child: Column(
-    //          children: [
-    //            Center(
-    //              child: InkWell(
-    //                onTap: () => dialog(context),
-    //                child: Container(
-    //                    height: MediaQuery.of(context).size.height * .4,
-    //                    width: MediaQuery.of(context).size.width * 1,
-    //                    child: Container(
-    //                            decoration: BoxDecoration(
-    //                              color: Color.fromARGB(255, 203, 201, 201),
-    //                              borderRadius: BorderRadius.circular(10),
-    //                            ),
-    //                            width: 100,
-    //                            height: 100,
-    //                            child: Icon(
-    //                              Icons.camera_alt,
-    //                              color: Colors.blue,
-    //                            ),
-    //                          )),
-    //              ),
-    //            ),
-    //            SizedBox(
-    //              height: 30,
-    //            ),
-    //            SizedBox(height: 30),
-    //            RoundButton(
-    //                title: "Upload",
-    //                onPress: () async {
-    //                  setState(() {
-    //                    showSpinner = true;
-    //                  });
-
-    //                  try {
-    //                    int date = DateTime.now().microsecondsSinceEpoch;
-
-    //                    firebase_storage.Reference ref = firebase_storage
-    //                        .FirebaseStorage.instance
-    //                        .ref('/blogapp$date');
-    //                    var newUrl = await ref.getDownloadURL();
-
-    //                    final User? user = _auth.currentUser;
-    //                    postRef.child('Post List').child(date.toString()).set({
-    //                      'pId': date.toString(),
-    //                      'pTime': date.toString(),
-    //                      'uEmail': user!.email.toString(),
-    //                      'uId': user.uid.toString(),
-    //                    }).then((value) {
-    //                      toastMessage('Post Published');
-    //                      setState(() {
-    //                        showSpinner = false;
-    //                        Navigator.pop(context);
-    //                      });
-    //                    }).onError((error, stackTrace) {
-    //                      toastMessage(e.toString());
-    //                    });
-    //                  } catch (e) {
-    //                    setState(() {
-    //                      showSpinner = false;
-    //                    });
-    //                    toastMessage(e.toString());
-    //                  }
-    //                })
-    //          ],
-    //        ),
-    //      ))),
-    //);
   }
 
 
@@ -223,7 +124,7 @@ class _ProfileState extends State<Profile> {
         gravity: ToastGravity.SNACKBAR,
         timeInSecForIosWeb: 1,
         backgroundColor: Colors.blue,
-        textColor: Colors.white,
+        textColor: Colors.black,
         fontSize: 16.0);
   }
 }

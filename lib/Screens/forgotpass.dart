@@ -20,7 +20,7 @@ class _ForgotPassState extends State<ForgotPass> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.blueAccent, title: Text("Forgot Password")),
+            backgroundColor: Color.fromRGBO(63, 120, 245, 1), title: Text("Forgot Password")),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30),
           child: Form(
@@ -99,7 +99,7 @@ class _ForgotPassState extends State<ForgotPass> {
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.SNACKBAR,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 16.0);
   }

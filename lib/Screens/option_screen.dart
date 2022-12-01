@@ -22,7 +22,7 @@ class _OptionScreenState extends State<OptionScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image(
-                  image: AssetImage("assets/images/splashlogo.png"),
+                  image: AssetImage("assets/images/blog.png"),
                   width: 180,
                   height: 300,
                 ),
